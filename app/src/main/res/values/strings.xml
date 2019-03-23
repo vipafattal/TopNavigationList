@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TopNavigationList</string>
+
+    <string name="coins_price_global">Global</string>
+    <string name="coins_price_syria">Syrian</string>
+    <string name="oil_price">Oil</string>
+    <string name="gold_price">Gold</string>
+    <string name="cyber_price">Cyber Coins</string>
+
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        tools:ignore="HardcodedText">
+
+    <item
+            android:id="@+id/nav_world_coins"
+            android:title="@string/coins_price_global" />
+    <item
+            android:id="@+id/nav_syria_coins"
+            android:title="@string/coins_price_syria" />
+    <item
+            android:id="@+id/nav_oil_price"
+            android:title="@string/oil_price" />
+    <item
+            android:id="@+id/nav_gold_price"
+            android:title="@string/gold_price" />
+    <item
+           android:title="@string/cyber_price"
+           android:id="@+id/nav_cyber_price"/>
+
+</menu>

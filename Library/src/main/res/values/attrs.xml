@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TopBarNavigation">
+
+        <attr name="menuRes" format="integer"/>
+
+        <attr name="text_padding" format="dimension"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="max_chars" format="integer"/>
+
+        <attr name="default_color" format="color"/>
+        <attr name="active_color" format="color"/>
+
+        <attr name="default_position" format="integer"/>
+    </declare-styleable>
+</resources>
