@@ -3,10 +3,12 @@ package com.magenta.library
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
-import android.support.annotation.MenuRes
-import android.support.v7.view.menu.MenuBuilder
-import android.support.v7.widget.CardView
+import androidx.annotation.IdRes
+import androidx.annotation.MenuRes
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.cardview.widget.CardView
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.*
@@ -27,7 +29,7 @@ import kotlin.math.roundToInt
  * Created by ${User} on ${Date}
  */
 @Suppress("MemberVisibilityCanBePrivate")
-class TopBarNavigation : CardView {
+class TopBarNavigation : androidx.cardview.widget.CardView {
     private val screenUtils = Screen(context)
     private lateinit var prvSelectedTextView: TextView
     var attribute: AttributeSet? = null
@@ -38,6 +40,8 @@ class TopBarNavigation : CardView {
     var defaultPosition: Int = 0
     var textPadding: Float = resources.getDimension(R.dimen.top_bar_text_padding)
     var maxChars = 8
+
+    private lateinit var menu: Menu
 
     var textViewSize: Float = 17f
         set(value) {
@@ -68,7 +72,6 @@ class TopBarNavigation : CardView {
             return
         }
         val ta = context.obtainStyledAttributes(attribute, R.styleable.TopBarNavigation)
-
         val menuRes = ta.getResourceId(R.styleable.TopBarNavigation_menuRes, 0)
         defaultPosition = ta.getInteger(R.styleable.TopBarNavigation_default_position, defaultPosition)
 
@@ -105,7 +108,7 @@ class TopBarNavigation : CardView {
 
     @SuppressLint("RestrictedApi")
     private fun buildMenuView(@MenuRes menuRes: Int): Menu {
-        val menu = MenuBuilder(context)
+        menu = MenuBuilder(context)
         MenuInflater(context).inflate(menuRes, menu)
         assert(menu.size() > 0) { "Menu must contains at least one item" }
         assert(defaultPosition < menu.size()) { "defaultPosition must be less then menu size" }
@@ -119,21 +122,24 @@ class TopBarNavigation : CardView {
             addView(textView)
             textView.setOnClickListener {
                 scrollView?.scroll(textView.width, position)
-                onItemClick(textView, position)
+                textView.onItemClick(item, position)
             }
         }
         //Activating color on default item.
         prvSelectedTextView = getChildAt(defaultPosition) as TextView
         prvSelectedTextView.setTextColor(activeColor)
+        prvSelectedTextView.typeface = Typeface.DEFAULT_BOLD
     }
 
-    private fun onItemClick(textView: TextView, pos: Int) {
+    private fun TextView.onItemClick(menuItem: MenuItem, pos: Int) {
         prvSelectedTextView.setTextColor(defaultColor)
-        textView.setTextColor(activeColor)
-        prvSelectedTextView = textView
+        prvSelectedTextView.typeface = Typeface.DEFAULT
 
-        itemClickListener?.topItemClicked(textView, textView.id, pos)
-        (context as? OnTopBarItemClicked)?.topItemClicked(textView, textView.id, pos)
+        setTextColor(activeColor)
+        typeface = Typeface.DEFAULT_BOLD
+
+        prvSelectedTextView = this
+        itemClickListener?.topItemClicked(menuItem)
     }
 
     private fun HorizontalScrollView.scroll(x: Int, itemPosition: Int) {
@@ -148,7 +154,7 @@ class TopBarNavigation : CardView {
     }
 
     private fun textViewBuilder(menuItem: MenuItem): TextView = textView {
-        gravity = Gravity.BOTTOM
+        gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
         text = menuItem.title
         id = menuItem.itemId
         textSize = textViewSize
@@ -168,7 +174,18 @@ class TopBarNavigation : CardView {
         }
     }
 
-    fun doOnItemClick(listener: OnTopBarItemClicked) {
+    fun setOnItemClick(listener: OnTopBarItemClicked) {
         itemClickListener = listener
+    }
+
+    fun setCurrentItem(@IdRes itemId: Int) {
+        require(::menu.isInitialized) { "No menu passed ot the view" }
+        val item = menu.findItem(itemId)
+        itemClickListener?.topItemClicked(item)
+    }
+
+
+    interface OnTopBarItemClicked {
+        fun topItemClicked(menuItem: MenuItem)
     }
 }
