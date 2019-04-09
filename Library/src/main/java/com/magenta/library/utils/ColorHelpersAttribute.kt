@@ -1,4 +1,4 @@
-package com.codebox.lib.libHelpers
+package com.magenta.library.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable

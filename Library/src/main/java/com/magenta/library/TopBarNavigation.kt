@@ -17,12 +17,9 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.TextView
-import com.codebox.lib.libHelpers.getForegroundReveal
-import com.codebox.lib.libHelpers.getThemeAccentColor
+import com.magenta.library.utils.getForegroundReveal
+import com.magenta.library.utils.getThemeAccentColor
 import com.magenta.library.utils.Screen
-import com.magenta.library.utils.horScrollView
-import com.magenta.library.utils.linearLayout
-import com.magenta.library.utils.textView
 import kotlin.math.roundToInt
 
 /**
