@@ -17,9 +17,7 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.TextView
-import com.magenta.library.utils.getForegroundReveal
-import com.magenta.library.utils.getThemeAccentColor
-import com.magenta.library.utils.Screen
+import com.magenta.library.utils.*
 import kotlin.math.roundToInt
 
 /**
@@ -119,7 +117,7 @@ class TopBarNavigation : androidx.cardview.widget.CardView {
             addView(textView)
             textView.setOnClickListener {
                 scrollView?.scroll(textView.width, position)
-                textView.onItemClick(item, position)
+                textView.onItemClick(item)
             }
         }
         //Activating color on default item.
@@ -128,7 +126,7 @@ class TopBarNavigation : androidx.cardview.widget.CardView {
         prvSelectedTextView.typeface = Typeface.DEFAULT_BOLD
     }
 
-    private fun TextView.onItemClick(menuItem: MenuItem, pos: Int) {
+    private fun TextView.onItemClick(menuItem: MenuItem) {
         prvSelectedTextView.setTextColor(defaultColor)
         prvSelectedTextView.typeface = Typeface.DEFAULT
 
