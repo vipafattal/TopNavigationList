@@ -7,8 +7,8 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <com.magenta.library.TopBarNavigation
-            app:textGravity="center"
+    <com.magenta.navigation.TopBar
+            app:titleGravity="center"
             app:menuRes="@menu/top_bar_menu"
             app:cardBackgroundColor="#fff"
             app:cardCornerRadius="0dp"

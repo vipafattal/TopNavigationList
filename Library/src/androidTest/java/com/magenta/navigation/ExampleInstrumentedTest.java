@@ -1,4 +1,4 @@
-package com.magenta.library;
+package com.magenta.navigation;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;

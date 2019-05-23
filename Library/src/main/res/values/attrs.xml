@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="TopBarNavigation">
+    <declare-styleable name="TopBar">
 
         <attr name="menuRes" format="integer"/>
-        <attr name="text_padding" format="dimension"/>
-        <attr name="text_size" format="dimension"/>
-        <attr name="max_chars" format="integer"/>
+
 
         <attr name="default_color" format="color"/>
         <attr name="active_color" format="color"/>
 
-        <attr name="textFontFamily" format="integer"/>
-
         <attr name="default_position" format="integer"/>
 
-        <attr name="textGravity" format="integer">
+
+        <attr name="titlePadding" format="dimension"/>
+        <attr name="titleSize" format="dimension"/>
+        <attr name="titleMaxChars" format="integer"/>
+        <attr name="titleFontFamily" format="integer"/>
+        <attr name="titleGravity" format="integer">
             <flag name="bottom" value="80" />
             <flag name="center" value="17" />
             <flag name="center_horizontal" value="1" />
@@ -29,6 +30,13 @@
             <flag name="right" value="5" />
             <flag name="start" value="8388611" />
             <flag name="top" value="48" />
+        </attr>
+
+        <attr name="titleActiveStyle" format="integer">
+            <flag name="normal" value="0"/>
+            <flag name="bold" value="1"/>
+            <flag name="italic" value="2"/>
+            <flag name="bold_and_italic" value="3" />
         </attr>
 
     </declare-styleable>

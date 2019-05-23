@@ -1,4 +1,4 @@
-package com.magenta.library.utils
+package com.magenta.navigation.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
