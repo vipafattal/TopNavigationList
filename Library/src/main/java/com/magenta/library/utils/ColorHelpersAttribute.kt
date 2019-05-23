@@ -31,7 +31,7 @@ internal fun getThemeAccentColor(context: Context): Int {
     return color
 }
 
-internal fun getForegroundReveal(context: Context) : Drawable? {
+internal fun getDrawableReveal(context: Context) : Drawable? {
     val typedValue = TypedValue()
     val fgTypedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(R.attr.selectableItemBackground))
     val fg = fgTypedArray.getDrawable(0)

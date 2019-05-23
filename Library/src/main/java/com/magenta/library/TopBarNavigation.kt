@@ -4,11 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.os.Build
-import androidx.annotation.IdRes
-import androidx.annotation.MenuRes
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.cardview.widget.CardView
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.*
@@ -17,6 +12,10 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.TextView
+import androidx.annotation.IdRes
+import androidx.annotation.MenuRes
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.content.res.ResourcesCompat
 import com.magenta.library.utils.*
 import kotlin.math.roundToInt
 
@@ -29,16 +28,19 @@ class TopBarNavigation : androidx.cardview.widget.CardView {
     private lateinit var prvSelectedTextView: TextView
     var attribute: AttributeSet? = null
     private var itemClickListener: OnTopBarItemClicked? = null
+    private var defaultColor: Int = Color.GRAY
+    private var activeColor: Int = getThemeAccentColor(context)
+    private var defaultPosition: Int = 0
+    private var titlePadding: Float = 0f
+    private var maxChars = 8
 
-    var defaultColor: Int = Color.GRAY
-    var activeColor: Int = getThemeAccentColor(context)
-    var defaultPosition: Int = 0
-    var textPadding: Float = resources.getDimension(R.dimen.top_bar_text_padding)
-    var maxChars = 8
+    private var titleFontFamily: Int = 0
+    private var titleTypeface = Typeface.DEFAULT
+    private var alignment = Gravity.CENTER
 
     private lateinit var menu: Menu
 
-    var textViewSize: Float = 17f
+    var textViewSize: Float = 15f
         set(value) {
             if (value != -1f)
                 field = screenUtils.pixelsToSp(value)
@@ -74,8 +76,14 @@ class TopBarNavigation : androidx.cardview.widget.CardView {
         activeColor = ta.getColor(R.styleable.TopBarNavigation_active_color, activeColor)
 
         textViewSize = ta.getDimension(R.styleable.TopBarNavigation_text_size, -1f)
-        textPadding = ta.getDimension(R.styleable.TopBarNavigation_text_padding, textPadding)
+        titlePadding = ta.getDimension(R.styleable.TopBarNavigation_text_padding, titlePadding)
         maxChars = ta.getInteger(R.styleable.TopBarNavigation_max_chars, maxChars)
+
+        alignment = ta.getInteger(R.styleable.TopBarNavigation_textGravity, alignment)
+        titleFontFamily = ta.getResourceId(R.styleable.TopBarNavigation_textFontFamily, 0)
+        if (titleFontFamily != 0)
+            titleTypeface = ResourcesCompat.getFont(context, titleFontFamily)
+
         ta.recycle()
 
         if (menuRes != 0) setMenu(menuRes)
@@ -123,15 +131,15 @@ class TopBarNavigation : androidx.cardview.widget.CardView {
         //Activating color on default item.
         prvSelectedTextView = getChildAt(defaultPosition) as TextView
         prvSelectedTextView.setTextColor(activeColor)
-        prvSelectedTextView.typeface = Typeface.DEFAULT_BOLD
+        prvSelectedTextView.setTypeface(titleTypeface, Typeface.NORMAL)
     }
 
     private fun TextView.onItemClick(menuItem: MenuItem) {
         prvSelectedTextView.setTextColor(defaultColor)
-        prvSelectedTextView.typeface = Typeface.DEFAULT
+        prvSelectedTextView.setTypeface(titleTypeface, Typeface.NORMAL)
 
         setTextColor(activeColor)
-        typeface = Typeface.DEFAULT_BOLD
+        setTypeface(titleTypeface, Typeface.BOLD)
 
         prvSelectedTextView = this
         itemClickListener?.topItemClicked(menuItem)
@@ -149,7 +157,8 @@ class TopBarNavigation : androidx.cardview.widget.CardView {
     }
 
     private fun textViewBuilder(menuItem: MenuItem): TextView = textView {
-        gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+        gravity = alignment
+        typeface = titleTypeface
         text = menuItem.title
         id = menuItem.itemId
         textSize = textViewSize
@@ -157,15 +166,16 @@ class TopBarNavigation : androidx.cardview.widget.CardView {
         maxEms = maxChars
         maxLines = 1
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            foreground = getForegroundReveal(context)
-        }
+        background = getDrawableReveal(context)
+
         setTextColor(defaultColor)
         layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT, 1f).apply {
             weight = 1f
-            val pad = textPadding.roundToInt()
-            setPadding(pad, pad, pad, screenUtils.dp(5f).roundToInt())
-            setMargins(0, 0, screenUtils.dp(10f).roundToInt(), 0)
+            if (titlePadding != 0f) {
+                val pad = titlePadding.roundToInt()
+                setPadding(pad, pad, pad, screenUtils.dp(5f).roundToInt())
+            }
+            //setMargins(0, 0, screenUtils.dp(10f).roundToInt(), 0)
         }
     }
 

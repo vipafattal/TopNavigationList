@@ -8,6 +8,7 @@
         tools:context=".MainActivity">
 
     <com.magenta.library.TopBarNavigation
+            app:textGravity="center"
             app:menuRes="@menu/top_bar_menu"
             app:cardBackgroundColor="#fff"
             app:cardCornerRadius="0dp"
@@ -17,7 +18,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:cardElevation="8dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

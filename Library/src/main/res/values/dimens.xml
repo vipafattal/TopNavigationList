@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="top_bar_height">56dp</dimen>
+<!--
     <dimen name="top_bar_text_padding">8dp</dimen>
+-->
 </resources>
